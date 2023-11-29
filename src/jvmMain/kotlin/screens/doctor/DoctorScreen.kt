@@ -1,11 +1,9 @@
-package screens.hospital
+package screens.doctor
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -19,52 +17,45 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import components.DoctorItem
+import data.Doctor
 import data.HospitalModel
 import data.NavDestination
 
 @Composable
-fun HospitalScreen(currentScreen: MutableState<NavDestination>, hospitalModel: HospitalModel) {
+fun DoctorScreen(currentScreen: MutableState<NavDestination>, hospitalModel: HospitalModel, doctor: Doctor) {
     Column(
         modifier = Modifier.fillMaxSize().padding(all = 36.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Button(onClick = {
-            currentScreen.value = NavDestination.MainScreen
+            currentScreen.value = NavDestination.HospitalScreen(hospitalModel)
         }) {
             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
         }
         Text(
-            text = "Учреждение: ${hospitalModel.hospitalName}",
+            text = "ФИО: ${doctor.doctorName}",
             fontWeight = FontWeight.Bold,
             fontSize = 36.sp,
             color = Color.Black
         )
         Text(
-            text = "Время работы: ${hospitalModel.hospitalTime}",
+            text = "Должность: ${doctor.doctorDegree}",
             fontWeight = FontWeight.Normal,
             fontSize = 24.sp,
             color = Color.Gray
         )
         Text(
-            text = "Адрес: ${hospitalModel.hospitalGeo}",
+            text = "Стаж: ${doctor.doctorExperience}",
             fontWeight = FontWeight.Normal,
             fontSize = 24.sp,
             color = Color.Gray
         )
         Text(
-            text = "Всего докторов: ${hospitalModel.hospitalDoctors.size}",
+            text = "Время работы: ${doctor.doctorWorkSchedule}",
             fontWeight = FontWeight.Normal,
             fontSize = 24.sp,
             color = Color.Gray
         )
-        LazyColumn {
-            items(hospitalModel.hospitalDoctors) { doctor ->
-                DoctorItem(doctor = doctor) {
-                    currentScreen.value = NavDestination.DoctorScreen(hospitalModel, doctor)
-                }
-            }
-        }
     }
 }

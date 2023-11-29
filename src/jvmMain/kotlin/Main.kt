@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import data.NavDestination
+import screens.doctor.DoctorScreen
 import screens.hospital.HospitalScreen
 import screens.main.MainScreen
 
@@ -18,14 +19,15 @@ fun App() {
     MaterialTheme {
         when (val destination = currentScreen.value) {
             is NavDestination.MainScreen -> MainScreen(currentScreen)
-            is NavDestination.HospitalScreen -> HospitalScreen(destination.hospitalModel)
+            is NavDestination.HospitalScreen -> HospitalScreen(currentScreen, destination.hospitalModel)
+            is NavDestination.DoctorScreen -> DoctorScreen(currentScreen, destination.hospitalModel, destination.doctor)
         }
 
     }
 }
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(onCloseRequest = ::exitApplication, title = "Регистратура") {
         App()
     }
 }
