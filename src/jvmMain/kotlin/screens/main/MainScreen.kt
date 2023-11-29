@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -16,9 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import components.HospitaListItems
 import components.SearchView
+import data.NavDestination
 
 @Composable
-fun MainScreen() {
+fun MainScreen(currentScreen: MutableState<NavDestination>) {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 36.dp),
@@ -38,7 +40,7 @@ fun MainScreen() {
             fontWeight = FontWeight.Black
         )
         SearchView(textState)
-        HospitaListItems(state = textState)
+        HospitaListItems(currentScreen = currentScreen, state = textState)
         Spacer(modifier = Modifier.weight(1f))
     }
 }

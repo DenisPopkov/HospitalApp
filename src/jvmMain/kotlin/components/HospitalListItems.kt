@@ -7,12 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
+import data.NavDestination
 import data.getHospitalMockData
 import java.util.*
 
 @Composable
-fun HospitaListItems(state: MutableState<TextFieldValue>) {
-    val hospitalMockData = getHospitalMockData().map { it.hospitalName }
+fun HospitaListItems(currentScreen: MutableState<NavDestination>, state: MutableState<TextFieldValue>) {
+    val originalHospitalMockData = getHospitalMockData()
+    val hospitalMockData = originalHospitalMockData.map { it.hospitalName }
     var filteredHospitals: List<String>
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         val searchedText = state.value.text
@@ -33,7 +35,8 @@ fun HospitaListItems(state: MutableState<TextFieldValue>) {
             HospitalItemDropDown(
                 hospitalText = filteredHospital,
                 onItemClick = { selectedHospital ->
-                    /* Add code later */
+                    val selectedHospitalData = originalHospitalMockData.find { it.hospitalName == selectedHospital }
+                    currentScreen.value = NavDestination.HospitalScreen(selectedHospitalData!!)
                 }
             )
         }
